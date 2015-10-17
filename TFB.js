@@ -33,7 +33,6 @@ TFB.prototype.login = function() {
 
 
 		var url = 'https://www.tfb.no/cgi-bin/mappami';
-		// console.log("that.config", that.config);
 		request.post({
 			"jar": that.jar,
 			"uri": url,
@@ -66,7 +65,7 @@ TFB.prototype.performListRequeset = function() {
 				"url": url,
 				"jar": that.jar,
 				"headers": {
-					// 'cookie': 'sesjid=2015242072744-176934410900312677366440015549976577573413484531184; style=S',
+					// 'cookie': 'sesjid=xxxxxx; style=S',
 					'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36',
 					'referer': 'https://www.tfb.no/cgi-bin/mappami?mode=vislaan'
 				}
@@ -104,15 +103,6 @@ TFB.prototype.performListRequeset = function() {
 					// x.deadline = $(this).find('td[3]').text();
 					data.push(x);
 				});
-
-				// fs.writeFile("/tmp/bibbody.html", body, function(err) {
-				//     if(err) {
-				//         return console.log(err);
-				//     }
-
-				//     console.log("The file was saved!");
-				// }); 
-
 
 				return resolve(data);
 
