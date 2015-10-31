@@ -26,6 +26,27 @@ var TFB = function(config) {
 
 };
 
+
+TFB.prototype.debugResponse = function(res, body) {
+
+	// console.log(Object.keys(res));
+	console.log("HTTP " + res["method"] + ' ' + res.url);
+	console.log(res.method);
+	// console.log(res.headers);
+	console.log("Status: " + res.statusCode + ' ' + res.statusMessage);
+	if (res.headers.location) {
+		console.log("Redirect to " + res.headers.location);
+	}
+	if (res.headers["set-cookie"]) {
+		console.log("set cookie to " + res.headers["set-cookie"]);
+	}
+	console.log("---");
+	console.log(body);
+	console.log("---");
+
+
+}
+
 TFB.prototype.login = function() {
 
 	var that = this;
@@ -41,6 +62,8 @@ TFB.prototype.login = function() {
 			},
 			"body": querystring.stringify(that.config)
 		}, function(error, response, body) {
+
+			// that.debugResponse(response, body);
 
 			if (!error) {
 				resolve();
@@ -76,9 +99,23 @@ TFB.prototype.performListRequeset = function() {
 				return reject()
 			}
 
+			// that.debugResponse(response, body);
+
 			// console.log("status code ", response.statusCode);
 
 			var $ = cheerio.load(body);
+
+
+			var v = $('ul#varsler');
+			var pb = $('#passordboks');
+			var msg = $('#main h2').text().trim();
+
+			if (pb.length > 0) {
+				return reject(new Error('Feil brukernavn eller passord'));
+			} else if (v.length !== 1) {
+				return reject(new Error(msg));
+			}
+
 
 			var data = [];
 			var tsnow = (new Date()).getTime();
